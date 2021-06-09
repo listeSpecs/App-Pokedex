@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { fetchPokemons } from '../../api/endpoints';
-import AnimatedBackground from '../../components/AnimatedBackground/AnimatedBackground';
 import GridBotao from '../../components/GridBotao/GridBotao';
 import {
   AppBody, CampoForm, Container, Divisor, Grid, Linha,
@@ -65,9 +64,6 @@ const PaginaPokedex = () => {
 
   return (
     <AppBody>
-
-      <AnimatedBackground />
-
       <Container>
         <h2>Pokédex</h2>
         <div style={{ borderBottom: '1px solid #cc0000', padding: espacamento.extraPequeno }}>

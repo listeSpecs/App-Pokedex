@@ -1,162 +1,204 @@
 import React, { useEffect, useState } from 'react';
-import { fetchPokemons, postTreinador } from '../../api/endpoints';
-import DesconhecidoPng from '../../assets/imagens/desconhecido.png';
-import AnimatedBackground from '../../components/AnimatedBackground/AnimatedBackground';
+import Dropzone from 'react-dropzone';
+import { fetchElementos, postPokemons } from '../../api/endpoints';
 import Botao from '../../components/Botao/Botao';
+import GridBotao from '../../components/GridBotao/GridBotao';
 import {
-  AppBody, CampoForm, Container, Divisor, FormFooter, Linha, SelectForm,
+  AppBody, AreaForm, ArquivoForm, CampoForm, Container, Divisor, FormFooter, Grid, SelectForm,
 } from '../../styles/base';
-import { borderRadius, espacamento } from '../../styles/constants/sizes';
-import definirCorElemento from '../../util/definirCorElemento';
+import { espacamento } from '../../styles/constants/sizes';
 
 const defaultValues = {
-  NomeTreinador: '',
-  IdadeTreinador: '',
-  Pokemon1: '',
-  Pokemon2: '',
-  Pokemon3: '',
+  nome: '',
+  descricao: '',
+  imagem: '',
+  elemento: '',
+  elementoCampo: '',
+  subElemento: '',
+  subElementoCampo: '',
 };
 
 const CadastroPokemon = () => {
-  const [listaPokemons, setListaPokemons] = useState(null);
-
   const [values, setValues] = useState(defaultValues);
+  const [listaElementos, setListaElementos] = useState(null);
+  const [foto, setFoto] = useState(null);
 
   useEffect(() => {
     Promise.all([
-      fetchPokemons(),
-    ]).then(([dadosPokemons]) => {
-      setListaPokemons(dadosPokemons);
+      fetchElementos(),
+    ]).then(([dadosElementos]) => {
+      setListaElementos(dadosElementos);
     });
   }, []);
 
-  if (!listaPokemons) {
+  if (!listaElementos) {
     return null;
   }
 
-  const primeiroPokemon = listaPokemons.find(({ id }) => id === values.Pokemon1);
-  const segundoPokemon = listaPokemons.find(({ id }) => id === values.Pokemon2);
-  const terceiroPokemon = listaPokemons.find(({ id }) => id === values.Pokemon3);
+  const uploadFoto = (url, options) => {
+    const promiseCallback = (resolve, reject) => {
+      const getFetchJson = (response) => {
+        if (!response.ok) return reject(response);
+        return response.json().then(resolve);
+      };
 
-  const cadastrarTreinador = async () => {
-    console.log(values);
-    const resposta = await postTreinador(values);
-
-    console.log(resposta);
+      fetch(url, options)
+        .then(getFetchJson)
+        .catch(reject);
+    };
+    return new Promise(promiseCallback);
   };
+
+  const adicionarFoto = async (arquivo) => {
+    setFoto(arquivo.map((data) => Object.assign(data, {
+      preview: URL.createObjectURL(data),
+    })));
+
+    const data = new FormData();
+    data.append('file', arquivo[0]);
+
+    setValues({
+      ...values,
+      imagem: `https://pokemon-fatec.s3.sa-east-1.amazonaws.com/${arquivo[0].name}`,
+    });
+
+    uploadFoto('https://api-pokemon-fatec.herokuapp.com/upload', {
+      method: 'POST',
+      body: data,
+    });
+  };
+
+  const cadastrarPokemon = async () => {
+    await postPokemons(values);
+
+    setValues(defaultValues);
+    setFoto(null);
+    alert('Pokemon cadastrado com sucesso');
+  };
+
+  console.log(values);
 
   return (
     <AppBody>
 
-      <AnimatedBackground />
-
       <Container>
-        <h2>Cadastro de Treinador</h2>
+        <h2>Cadastro de Pokemon</h2>
         <div style={{ borderBottom: '1px solid #cc0000', padding: espacamento.extraPequeno }}>
-          <b>Equipe</b>
+          <b>Cadastro</b>
         </div>
 
         <Divisor />
 
-        <Linha style={{ justifyContent: 'space-between' }}>
-          <div style={{ borderRadius, backgroundColor: primeiroPokemon ? definirCorElemento(primeiroPokemon.elemento.nomeElemento) : 'transparent' }}>
-            {values.Pokemon1 ? (<img src={primeiroPokemon.imagem} alt="Primeiro pokemon escolhido" style={{ width: 200, height: 200 }} />) : (<img src={DesconhecidoPng} alt="Pokemon não escolhido" style={{ width: 200, height: 200 }} />)}
-          </div>
-
-          <div style={{ borderRadius, backgroundColor: segundoPokemon ? definirCorElemento(segundoPokemon.elemento.nomeElemento) : 'transparent' }}>
-            {values.Pokemon2 ? (<img src={segundoPokemon.imagem} alt="Segundo pokemon escolhido" style={{ width: 200, height: 200 }} />) : (<img src={DesconhecidoPng} alt="Pokemon não escolhido" style={{ width: 200, height: 200 }} />)}
-          </div>
-
-          <div style={{ borderRadius, backgroundColor: terceiroPokemon ? definirCorElemento(terceiroPokemon.elemento.nomeElemento) : 'transparent' }}>
-            {values.Pokemon3 ? (<img src={terceiroPokemon.imagem} alt="Terceiro pokemon escolhido" style={{ width: 200, height: 200 }} />) : (<img src={DesconhecidoPng} alt="Pokemon não escolhido" style={{ width: 200, height: 200 }} />)}
-          </div>
-        </Linha>
-
-        <Divisor />
-
-        <b>Nome do Treinador</b>
+        <b>Nome do Pokemon</b>
         <CampoForm
-          id="campo_nomeTreinador"
-          value={values.NomeTreinador}
+          id="campo_nomePokemon"
+          value={values.nome}
           onChange={({ target }) => {
             setValues({
               ...values,
-              NomeTreinador: target.value,
+              nome: target.value,
             });
           }}
         />
 
         <Divisor />
 
-        <b>Idade do Treinador</b>
-        <CampoForm
-          id="campo_idadeTreinador"
-          value={values.IdadeTreinador}
+        <b>Descrição do Pokemon</b>
+        <AreaForm
+          id="campo_descricaoPokemon"
+          value={values.descricao}
           onChange={({ target }) => {
             setValues({
               ...values,
-              IdadeTreinador: target.value,
+              descricao: target.value,
             });
           }}
         />
 
         <Divisor />
 
-        <b>Primeiro Pokemon</b>
+        <b>Elemento do Pokemon</b>
         <SelectForm
-          id="select_pokemon1"
-          value={values.Pokemon1}
+          id="elemento"
+          value={values.elementoCampo}
           onChange={({ target }) => {
             setValues({
               ...values,
-              Pokemon1: Number(target.value),
+              elemento: { id: Number(target.value) },
+              elementoCampo: Number(target.value),
             });
           }}
         >
           <option value="">&nbsp;</option>
-          {listaPokemons && listaPokemons.map(({ id, nome }) => (
-            <option key={id} value={id}>{nome}</option>
+          {listaElementos && listaElementos.map(({ id, nomeElemento }) => (
+            <option key={id} value={id}>{nomeElemento}</option>
           ))}
         </SelectForm>
 
         <Divisor />
 
-        <b>Segundo Pokemon</b>
+        <b>Sub-elemento do Pokemon</b>
         <SelectForm
-          id="select_pokemon2"
-          value={values.Pokemon2}
-          onChange={({ target }) => setValues({
-            ...values,
-            Pokemon2: Number(target.value),
-          })}
+          id="select_subElemento"
+          value={values.subElementoCampo}
+          onChange={({ target }) => {
+            setValues({
+              ...values,
+              subElemento: { id: Number(target.value) },
+              subElementoCampo: Number(target.value),
+            });
+          }}
         >
           <option value="">&nbsp;</option>
-          {listaPokemons && listaPokemons.map(({ id, nome }) => (
-            <option key={id} value={id}>{nome}</option>
+          {listaElementos && listaElementos.map(({ id, nomeElemento }) => (
+            <option key={id} value={id}>{nomeElemento}</option>
           ))}
         </SelectForm>
 
         <Divisor />
 
-        <b>Terceiro Pokemon</b>
-        <SelectForm
-          id="select_pokemon3"
-          value={values.Pokemon3}
-          onChange={({ target }) => setValues({
-            ...values,
-            Pokemon3: Number(target.value),
-          })}
-        >
-          <option value="">&nbsp;</option>
-          {listaPokemons && listaPokemons.map(({ id, nome }) => (
-            <option key={id} value={id}>{nome}</option>
-          ))}
-        </SelectForm>
+        <div style={{ marginBottom: espacamento.pequeno, marginTop: espacamento.pequeno }}>
+          <Dropzone
+            multiple={false}
+            onDrop={adicionarFoto}
+            maxSize={200000000}
+            accept="image/*"
+          >
+            {({
+              getRootProps, getInputProps, isDragActive, isDragReject,
+            }) => (
+              <>
+                <ArquivoForm {...getRootProps()}>
+                  <input {...getInputProps()} />
+                  <b>{!isDragActive && 'Selecione a foto desejada.'}</b>
+                  <b>{isDragActive && !isDragReject && 'Jogue aqui sua foto!'}</b>
+                  <b>{isDragReject && 'Arquivo não suportado!'}</b>
+                  <b>{ }</b>
+                  <span>Escolha a foto do pokemon.</span>
+                </ArquivoForm>
+              </>
+            )}
+          </Dropzone>
 
-        <Divisor />
+          <Divisor />
+
+          <Grid>
+            {foto && foto.map((arquivo) => (
+              <div style={{ position: 'relative' }} key={arquivo.path}>
+                <GridBotao
+                  key={arquivo.path}
+                  img={arquivo.preview}
+                  type="arquivo"
+                />
+              </div>
+            ))}
+          </Grid>
+
+          {foto && foto.length ? (<Divisor />) : null}
+        </div>
 
         <FormFooter>
-          <Botao type="submit" label="Cadastrar" onClick={cadastrarTreinador} />
+          <Botao type="submit" label="Cadastrar" onClick={cadastrarPokemon} />
         </FormFooter>
 
       </Container>

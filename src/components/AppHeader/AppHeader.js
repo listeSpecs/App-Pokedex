@@ -13,7 +13,7 @@ const AppHeader = () => {
           <ul>
             <li>
               <Link to="/" style={{ color: '#cc0000' }}>
-                Cadastro de Treinador
+                Cadastro de Pokemon
               </Link>
             </li>
             <li>
@@ -22,8 +22,8 @@ const AppHeader = () => {
               </Link>
             </li>
             <li>
-              <Link to="/treinadores" style={{ color: '#cc0000' }}>
-                Centro de Treinadores (Listagem de Treinadores)
+              <Link to="/cadastrar" style={{ color: '#cc0000' }}>
+                Cadastro de Usuários
               </Link>
             </li>
           </ul>

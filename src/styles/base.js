@@ -92,6 +92,24 @@ export const SelectForm = styled.select`
   }
 `;
 
+export const ArquivoForm = styled.div`
+  display: flex;
+  background-color: #fff;
+  flex-direction: column;
+  padding: ${espacamento.extraPequeno}px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  align-items: center;
+  cursor: pointer;
+  transition: .2s ease-in-out;
+  outline: none;
+
+  :hover {
+    border-color: #cc0000;
+    box-shadow: 0 2px 10px 0 rgba(204, 0, 0, 0.5);
+  }
+`;
+
 export const AreaForm = styled.textarea`
   flex: 1;
   letter-spacing: 1px;

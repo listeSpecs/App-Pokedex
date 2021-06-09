@@ -19,4 +19,26 @@ export const apiPost = (path, body) => apiService(path, {
   body,
 });
 
+const apiServiceUpload = async (path, settings = {}) => {
+  const { headers, body } = settings;
+  const options = {
+    ...settings,
+    headers: {
+      ...headers,
+    },
+    body: body instanceof FormData ? body : JSON.stringify(body),
+  };
+  return apiFactory(path, options);
+};
+
+export const upload = async (arquivo) => {
+  const data = new FormData();
+  data.append('file', arquivo);
+
+  await apiServiceUpload('/upload', {
+    method: 'post',
+    body: data,
+  });
+};
+
 export default apiService;

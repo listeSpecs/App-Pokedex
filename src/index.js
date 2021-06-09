@@ -5,15 +5,15 @@ import { BrowserRouter } from 'react-router-dom';
 import AppHeader from './components/AppHeader/AppHeader';
 import CadastroPokemon from './screens/CadastroPokemon/CadastroPokemon';
 import PaginaPokedex from './screens/PaginaPokedex/PaginaPokedex';
-import PaginaTreinadores from './screens/PaginaTreinadores/PaginaTreinadores';
+import CadastroUsuario from './screens/CadastroUsuario/CadastroUsuario';
 
 const App = () => (
   <Switch>
     <Route exact path="/">
       <CadastroPokemon />
     </Route>
-    <Route exact path="/treinadores">
-      <PaginaTreinadores />
+    <Route exact path="/cadastrar">
+      <CadastroUsuario />
     </Route>
     <Route exact path="/pokedex">
       <PaginaPokedex />
