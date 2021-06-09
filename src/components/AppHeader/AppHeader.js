@@ -7,29 +7,31 @@ const AppHeader = () => {
   const a = 'b';
 
   return (
-    <Container>
-      <header>
-        <Menu>
-          <ul>
-            <li>
-              <Link to="/" style={{ color: '#cc0000' }}>
-                Cadastro de Pokemon
-              </Link>
-            </li>
-            <li>
-              <Link to="/pokedex" style={{ color: '#cc0000' }}>
-                Pokédex (Listagem de Pokemons)
-              </Link>
-            </li>
-            <li>
-              <Link to="/cadastrar" style={{ color: '#cc0000' }}>
-                Cadastro de Usuários
-              </Link>
-            </li>
-          </ul>
-        </Menu>
-      </header>
-    </Container>
+    <div style={{ backgroundColor: '#c00', borderBottom: '1px solid #fff' }}>
+      <Container>
+        <header>
+          <Menu>
+            <ul>
+              <li>
+                <Link to="/" style={{ color: '#fff' }}>
+                  Cadastro de Pokemon
+                </Link>
+              </li>
+              <li>
+                <Link to="/pokedex" style={{ color: '#fff' }}>
+                  Pokédex (Listagem de Pokemons)
+                </Link>
+              </li>
+              <li>
+                <Link to="/cadastrar" style={{ color: '#fff' }}>
+                  Cadastro de Usuários
+                </Link>
+              </li>
+            </ul>
+          </Menu>
+        </header>
+      </Container>
+    </div>
   );
 };
 

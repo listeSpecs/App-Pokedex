@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import DropImg from '../assets/icones/drop.png';
 import { cinza } from './constants/colors';
 import { borderRadius, espacamento } from './constants/sizes';
 
@@ -45,9 +46,74 @@ export const Divisor = styled.div`
 
 /* FONTES */
 
+export const Alerta = styled.span`
+  color: #c00;
+`;
+
 /* BOTÕES */
 
+export const BotaoNude = styled.button`
+  background: transparent;
+  padding: 0;
+  margin: 0;
+  border: none;
+  cursor: pointer;
+  outline: none;
+  align-self: center;
+`;
+
 /* NOTIFICAÇÃO */
+
+export const NotificacaoSucesso = styled.div`
+  color: #6d9e64;
+  background-color: #d4fecc;
+  box-shadow: 0 1px 5px 0 rgba(0,0,0,0.3);
+  padding: ${espacamento.pequeno}px ${espacamento.pequeno}px;
+  border-radius: 4px;
+  margin-bottom: ${espacamento.extraPequeno}px;
+  width: 20em;
+  max-width: 100%;
+
+  h4 {
+    margin-top: 0;
+    font-weight: 600;
+    font-size: 1.3em;
+  }
+`;
+
+export const NotificacaoErro = styled.div`
+  color: #622428;
+  background-color: #ffd3d4;
+  box-shadow: 0 1px 5px 0 rgba(0,0,0,0.3);
+  padding: ${espacamento.pequeno}px ${espacamento.pequeno}px;
+  border-radius: 4px;
+  margin-bottom: ${espacamento.extraPequeno}px;
+  width: 20em;
+  max-width: 100%;
+
+  h4 {
+    margin-top: 0;
+    font-weight: 600;
+    font-size: 1.3em;
+  }
+`;
+
+export const NotificacaoInfo = styled.div`
+  background-color: #fff;
+  color: #000;
+  box-shadow: 0 1px 5px 0 rgba(0,0,0,0.3);
+  padding: ${espacamento.pequeno}px ${espacamento.pequeno}px;
+  border-radius: 4px;
+  margin-bottom: ${espacamento.extraPequeno}px;
+  width: 20em;
+  max-width: 100%;
+
+  h4 {
+    margin-top: 0;
+    font-weight: 600;
+    font-size: 1.3em;
+  }
+`;
 
 /* FORMULÁRIO */
 
@@ -78,7 +144,9 @@ export const SelectForm = styled.select`
   padding-right: ${espacamento.medio}px;
   border: 1px solid ${cinza.claro};
   border-radius: ${borderRadius}px;
-  background-size: 10px;
+  background: url(${DropImg}) no-repeat 98%;
+  background-color: #fff;
+  background-size: 13px;
   width: 100%;
   transition: .2s ease-in-out;
   backface-visibility: hidden;
@@ -175,6 +243,31 @@ export const ContainerJanela = styled.div`
   margin: auto;
   background-color: rgba(0, 0, 0, .3);
   animation: fade-in .3s ease-in-out forwards;
+`;
+
+export const Janela = styled.div`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #fff;
+  border-radius: 4px;
+  padding: ${espacamento.medio}px;
+  box-shadow: 0 5px 30px 0 rgb(0 0 0 / 50%);
+  display: flex;
+  width: 80%;
+  max-width: 600px;
+  flex-direction: column;
+
+  div {
+    max-height: 90vh;
+  }
+
+  img {
+    object-fit: contain;
+    overflow: hidden;
+    max-height: 75vh;
+  }
 `;
 
 /* LISTA */

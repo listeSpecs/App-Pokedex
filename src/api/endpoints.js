@@ -11,3 +11,5 @@ export const postImagem = async (body) => upload('/upload', body);
 export const postUsuario = async (body) => apiPost('/usuarios', body);
 
 export const fetchTreinadores = () => apiService('/treinadores');
+
+export const fetchRegioes = () => apiService('/regioes');

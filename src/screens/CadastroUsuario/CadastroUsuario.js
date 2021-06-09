@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
+import { useAlert } from 'react-alert';
 import { postUsuario } from '../../api/endpoints';
 import Botao from '../../components/Botao/Botao';
 import {
-  AppBody, CampoForm, Container, Divisor, FormFooter, SelectForm,
+  Alerta,
+  AppBody, CampoForm, Container, Divisor, FormFooter, Linha, SelectForm,
 } from '../../styles/base';
 import { espacamento } from '../../styles/constants/sizes';
 
@@ -28,7 +30,36 @@ const defaultValues = {
 const CadastroPokemon = () => {
   const [values, setValues] = useState(defaultValues);
 
+  const alert = useAlert();
+
+  const validate = () => {
+    if (!values.nome) {
+      alert.error('Verifique todos os campos obrigatórios.', { timeout: 5000 });
+      return false;
+    }
+    if (!values.login) {
+      alert.error('Verifique todos os campos obrigatórios.', { timeout: 5000 });
+      return false;
+    }
+
+    if (!values.senha) {
+      alert.error('Verifique todos os campos obrigatórios.', { timeout: 5000 });
+      return false;
+    }
+
+    if (!values.perfil) {
+      alert.error('Verifique todos os campos obrigatórios.', { timeout: 5000 });
+      return false;
+    }
+
+    return true;
+  };
+
   const cadastrarUsuario = async () => {
+    if (!validate()) {
+      return;
+    }
+
     await postUsuario(values);
 
     alert('Usuário cadastrado com sucesso');
@@ -40,13 +71,22 @@ const CadastroPokemon = () => {
     <AppBody>
       <Container>
         <h2>Cadastro de Usuário</h2>
+
+        <Linha style={{ justifyContent: 'flex-end' }}>
+          <b><Alerta>* Campos obrigatórios</Alerta></b>
+        </Linha>
+
         <div style={{ borderBottom: '1px solid #cc0000', padding: espacamento.extraPequeno }}>
           <b>Cadastro</b>
         </div>
 
         <Divisor />
 
-        <b>Nome do Usuário</b>
+        <b>
+          Nome do Usuário
+          {' '}
+          <Alerta>*</Alerta>
+        </b>
         <CampoForm
           id="campo_nomeUsuario"
           value={values.nome}
@@ -60,7 +100,11 @@ const CadastroPokemon = () => {
 
         <Divisor />
 
-        <b>Login do Usuário</b>
+        <b>
+          Login do Usuário
+          {' '}
+          <Alerta>*</Alerta>
+        </b>
         <CampoForm
           id="campo_loginUsuario"
           value={values.login}
@@ -74,7 +118,11 @@ const CadastroPokemon = () => {
 
         <Divisor />
 
-        <b>Senha do Usuário</b>
+        <b>
+          Senha do Usuário
+          {' '}
+          <Alerta>*</Alerta>
+        </b>
         <CampoForm
           id="campo_senhaUsuario"
           value={values.senha}
@@ -88,7 +136,11 @@ const CadastroPokemon = () => {
 
         <Divisor />
 
-        <b>Perfil de Usuário</b>
+        <b>
+          Perfil de Usuário
+          {' '}
+          <Alerta>*</Alerta>
+        </b>
         <SelectForm
           id="select_perfil"
           value={values.perfil}
