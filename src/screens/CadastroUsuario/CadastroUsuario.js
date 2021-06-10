@@ -62,7 +62,7 @@ const CadastroPokemon = () => {
 
     await postUsuario(values);
 
-    alert('Usuário cadastrado com sucesso');
+    alert.success('Usuário cadastrado com sucesso', { timeout: 5000 });
 
     setValues(defaultValues);
   };

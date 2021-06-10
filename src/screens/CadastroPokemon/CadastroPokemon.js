@@ -124,39 +124,68 @@ const CadastroPokemon = () => {
       return;
     }
 
-    await postPokemons({
-      nome: values.nome,
-      imagem: values.imagem,
-      descricao: values.descricao,
-      elemento: {
-        id: values.elemento,
-      },
-      subElemento: {
-        id: values.subElemento,
-      },
-      fracoContra: [
-        values.fracoContra1
-          ? {
-            id: values.fracoContra1,
-          } : null,
-        values.fracoContra2
-          ? {
-            id: values.fracoContra2,
-          } : null,
-        values.fracoContra3
-          ? {
-            id: values.fracoContra3,
-          } : null,
-      ],
-      regiao: {
-        id: values.regiao,
-      },
+    if (values.subElemento) {
+      await postPokemons({
+        nome: values.nome,
+        imagem: values.imagem,
+        descricao: values.descricao,
+        elemento: {
+          id: values.elemento,
+        },
+        subElemento: {
+          id: values.subElemento,
+        },
+        fracoContra: [
+          values.fracoContra1
+            ? {
+              id: values.fracoContra1,
+            } : null,
+          values.fracoContra2
+            ? {
+              id: values.fracoContra2,
+            } : null,
+          values.fracoContra3
+            ? {
+              id: values.fracoContra3,
+            } : null,
+        ],
+        regiao: {
+          id: values.regiao,
+        },
+      });
+    }
 
-    });
+    if (!values.subElemento) {
+      await postPokemons({
+        nome: values.nome,
+        imagem: values.imagem,
+        descricao: values.descricao,
+        elemento: {
+          id: values.elemento,
+        },
+        fracoContra: [
+          values.fracoContra1
+            ? {
+              id: values.fracoContra1,
+            } : null,
+          values.fracoContra2
+            ? {
+              id: values.fracoContra2,
+            } : null,
+          values.fracoContra3
+            ? {
+              id: values.fracoContra3,
+            } : null,
+        ],
+        regiao: {
+          id: values.regiao,
+        },
+      });
+    }
 
     setValues(defaultValues);
     setFoto(null);
-    alert('Pokemon cadastrado com sucesso');
+    alert.success('Pokemon cadastrado com sucesso', { timeout: 5000 });
   };
 
   return (
