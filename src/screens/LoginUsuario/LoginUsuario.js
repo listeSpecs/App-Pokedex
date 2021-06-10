@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import { useAlert } from 'react-alert';
+import { useHistory } from 'react-router';
+import { setAuthToken } from '../../api/apiFactory';
+import { fetchLogin } from '../../api/endpoints';
 import Botao from '../../components/Botao/Botao';
 import {
   Alerta,
   AppBody, CampoForm, Container, Divisor, FormFooter, Linha,
 } from '../../styles/base';
 import { espacamento } from '../../styles/constants/sizes';
-import { fetchLogin } from '../../api/endpoints';
 
 const defaultValues = {
   login: '',
@@ -17,6 +19,7 @@ const LoginUsuario = () => {
   const [values, setValues] = useState(defaultValues);
 
   const alert = useAlert();
+  const history = useHistory();
 
   const validate = () => {
     if (!values.login) {
@@ -39,9 +42,15 @@ const LoginUsuario = () => {
 
     const resp = await fetchLogin(values);
 
-    console.log(resp);
+    if (resp.message) {
+      alert.error('Dados não encontrados.', { timeout: 5000 });
+    }
+
+    setAuthToken(resp.token);
 
     setValues(defaultValues);
+
+    history.push('/');
   };
 
   return (

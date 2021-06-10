@@ -19,6 +19,10 @@ export const apiPost = (path, body) => apiService(path, {
   body,
 });
 
+export const apiDelete = async (path) => apiService(path, {
+  method: 'delete',
+});
+
 const apiServiceUpload = async (path, settings = {}) => {
   const { headers, body } = settings;
   const options = {

@@ -256,7 +256,7 @@ export const Janela = styled.div`
   box-shadow: 0 5px 30px 0 rgb(0 0 0 / 50%);
   display: flex;
   width: 80%;
-  max-width: 600px;
+  max-width: 800px;
   flex-direction: column;
 
   div {

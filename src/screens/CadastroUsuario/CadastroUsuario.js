@@ -8,23 +8,12 @@ import {
 } from '../../styles/base';
 import { espacamento } from '../../styles/constants/sizes';
 
-const listaPerfis = [
-  {
-    id: '1',
-    campo: 'Normal',
-  },
-  {
-    id: '2',
-    campo: 'Administrador',
-  },
-];
-
 const defaultValues = {
   nome: '',
   login: '',
   senha: '',
   perfil: '',
-  perfis: '',
+  perfis: [1],
 };
 
 const CadastroUsuario = () => {
@@ -134,30 +123,6 @@ const CadastroUsuario = () => {
             });
           }}
         />
-
-        <Divisor />
-
-        <b>
-          Perfil de Usuário
-          {' '}
-          <Alerta>*</Alerta>
-        </b>
-        <SelectForm
-          id="select_perfil"
-          value={values.perfil}
-          onChange={({ target }) => {
-            setValues({
-              ...values,
-              perfil: Number(target.value),
-              perfis: [Number(target.value)],
-            });
-          }}
-        >
-          <option value="">&nbsp;</option>
-          {listaPerfis && listaPerfis.map(({ id, campo }) => (
-            <option key={id} value={id}>{campo}</option>
-          ))}
-        </SelectForm>
 
         <Divisor />
 

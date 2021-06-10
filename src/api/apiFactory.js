@@ -6,7 +6,18 @@ export const setAuthToken = (token) => localStorage.setItem('@app-pokedex/author
 
 export const getDefaultHeaders = async () => ({
   'Content-Type': 'application/json;charset=UTF-8',
+  Authorization: `${await localStorage.getItem('@app-pokedex/authorization-token')}`,
 });
 
 export const apiFactory = (path, { plaintext, ...settings }) => fetch(`${apiRoot}${path}`, settings)
   .then((resp) => (plaintext ? resp.text() : resp.json()));
+
+export const verificarLogin = async () => {
+  const cookie = await getAuthToken();
+
+  if (!cookie) {
+    return false;
+  }
+
+  return true;
+};

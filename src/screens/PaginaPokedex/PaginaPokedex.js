@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { fetchPokemons } from '../../api/endpoints';
+import { deletePokemons, fetchPokemons } from '../../api/endpoints';
 import Botao from '../../components/Botao/Botao';
 import Carregar from '../../components/Carregar/Carregar';
 import GridBotao from '../../components/GridBotao/GridBotao';
@@ -41,7 +41,16 @@ const PaginaPokedex = () => {
     return campoFormatado.includes(buscaFormatado);
   });
 
-  console.log(dadosPokemon);
+  const deletarPokemon = async (id) => {
+    const resp = await deletePokemons(id);
+    fetch(`https://api-pokemon-fatec.herokuapp.com/pokemons/${id}`, {
+      method: 'DELETE',
+    });
+
+    console.log(resp);
+
+    return alert.success('Pokemon deletado com sucesso', { timeout: 5000 });
+  };
 
   return (
     <>
@@ -63,43 +72,51 @@ const PaginaPokedex = () => {
 
                     <Divisor />
 
-                    <Linha />
-
-                    <Coluna>
-                      <p style={{ borderBottom: '1px solid', flex: 1, borderColor: definirCorElemento(dadosPokemon.elemento ? dadosPokemon.elemento.nomeElemento : null) }}>
-                        <b>ID:</b>
-                        {' '}
-                        {dadosPokemon.id}
-                      </p>
-                      <p style={{ borderBottom: '1px solid', flex: 1, borderColor: definirCorElemento(dadosPokemon.elemento ? dadosPokemon.elemento.nomeElemento : null) }}>
-                        <b>Nome:</b>
-                        {' '}
-                        {dadosPokemon.nome}
-                      </p>
-                      <p style={{ borderBottom: '1px solid', flex: 1, borderColor: definirCorElemento(dadosPokemon.elemento ? dadosPokemon.elemento.nomeElemento : null) }}>
-                        <b>Elemento:</b>
-                        {' '}
-                        {dadosPokemon.elemento ? dadosPokemon.elemento.nomeElemento : null}
-                      </p>
-                      {dadosPokemon.subElemento ? (
+                    <Linha style={{ gap: 15 }}>
+                      <div>
+                        <img src={dadosPokemon.imagem} alt="Pokemon selecionado" width={200} />
+                      </div>
+                      <Coluna style={{ flex: 1 }}>
                         <p style={{ borderBottom: '1px solid', flex: 1, borderColor: definirCorElemento(dadosPokemon.elemento ? dadosPokemon.elemento.nomeElemento : null) }}>
-                          <b>Sub-elemento:</b>
+                          <b>Nome:</b>
                           {' '}
-                          {dadosPokemon.subElemento ? dadosPokemon.subElemento.nomeElemento : null}
+                          {dadosPokemon.nome}
                         </p>
-                      ) : (null)}
-                      <p style={{ borderBottom: '1px solid', flex: 1, borderColor: definirCorElemento(dadosPokemon.elemento ? dadosPokemon.elemento.nomeElemento : null) }}>
-                        <b>Descrição:</b>
-                        :
-                        {' '}
-                        {dadosPokemon.descricao}
-                      </p>
-                    </Coluna>
-                    {// subelementos
-                      }
-                    {// fracoContra
-                      }
+                        <p style={{ borderBottom: '1px solid', flex: 1, borderColor: definirCorElemento(dadosPokemon.elemento ? dadosPokemon.elemento.nomeElemento : null) }}>
+                          <b>Elemento:</b>
+                          {' '}
+                          {dadosPokemon.elemento ? dadosPokemon.elemento.nomeElemento : null}
+                        </p>
+                        {dadosPokemon.subElemento ? (
+                          <p style={{ borderBottom: '1px solid', flex: 1, borderColor: definirCorElemento(dadosPokemon.elemento ? dadosPokemon.elemento.nomeElemento : null) }}>
+                            <b>Sub-elemento:</b>
+                            {' '}
+                            {dadosPokemon.subElemento ? dadosPokemon.subElemento.nomeElemento : null}
+                          </p>
+                        ) : (null)}
+                        {dadosPokemon.fracoContra ? (
+                          <p style={{ borderBottom: '1px solid', flex: 1, borderColor: definirCorElemento(dadosPokemon.elemento ? dadosPokemon.elemento.nomeElemento : null) }}>
+                            <b>Fraco contra:</b>
+                            {' '}
+                            {dadosPokemon.fracoContra[0].nomeElemento}
+                            {dadosPokemon.fracoContra[1] ? `, ${dadosPokemon.fracoContra[1].nomeElemento}` : null}
+                            {dadosPokemon.fracoContra[2] ? `, ${dadosPokemon.fracoContra[2].nomeElemento}` : null}
+                          </p>
+                        ) : (null)}
+                        <p style={{ borderBottom: '1px solid', flex: 1, borderColor: definirCorElemento(dadosPokemon.elemento ? dadosPokemon.elemento.nomeElemento : null) }}>
+                          <b>Descrição:</b>
+                          :
+                          {' '}
+                          {dadosPokemon.descricao}
+                        </p>
+                      </Coluna>
+                    </Linha>
 
+                    <Divisor />
+
+                    <Linha style={{ justifyContent: 'flex-end' }}>
+                      <Botao label="Deletar" onClick={() => deletarPokemon(dadosPokemon.id)} />
+                    </Linha>
                   </>
                 )
                 : null}

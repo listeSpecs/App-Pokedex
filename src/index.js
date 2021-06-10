@@ -60,13 +60,13 @@ const App = () => {
     <AlertProvider template={AlertTemplate} {...alertOptions}>
       <Switch>
         <Route exact path="/">
+          <PaginaPokedex />
+        </Route>
+        <Route exact path="/pokemon">
           <CadastroPokemon />
         </Route>
         <Route exact path="/cadastrar">
           <CadastroUsuario />
-        </Route>
-        <Route exact path="/pokedex">
-          <PaginaPokedex />
         </Route>
         <Route exact path="/login">
           <LoginUsuario />

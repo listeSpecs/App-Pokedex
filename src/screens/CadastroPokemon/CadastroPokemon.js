@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useAlert } from 'react-alert';
 import Dropzone from 'react-dropzone';
+import { Link } from 'react-router-dom';
+import { verificarLogin } from '../../api/apiFactory';
 import { fetchElementos, fetchRegioes, postPokemons } from '../../api/endpoints';
 import Botao from '../../components/Botao/Botao';
 import Carregar from '../../components/Carregar/Carregar';
@@ -28,6 +30,7 @@ const CadastroPokemon = () => {
   const [values, setValues] = useState(defaultValues);
   const [listaElementos, setListaElementos] = useState(null);
   const [listaRegioes, setListaRegioes] = useState(null);
+  const [verificacaoLogin, setVerificacaoLogin] = useState(false);
   const [foto, setFoto] = useState(null);
 
   const alert = useAlert();
@@ -71,6 +74,8 @@ const CadastroPokemon = () => {
   };
 
   useEffect(() => {
+    verificarLogin().then((data) => setVerificacaoLogin(data));
+
     Promise.all([
       fetchElementos(),
       fetchRegioes(),
@@ -187,6 +192,23 @@ const CadastroPokemon = () => {
     setFoto(null);
     alert.success('Pokemon cadastrado com sucesso', { timeout: 5000 });
   };
+
+  if (!verificacaoLogin) {
+    return (
+      <AppBody>
+
+        <Container>
+          <h2>Entre para acessar</h2>
+
+          <Divisor />
+
+          <Link to="/login" style={{ color: '#c00' }}>
+            Ir para página de login ~
+          </Link>
+        </Container>
+      </AppBody>
+    );
+  }
 
   return (
     <AppBody>
