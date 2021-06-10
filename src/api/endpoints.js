@@ -13,3 +13,5 @@ export const postUsuario = async (body) => apiPost('/usuarios', body);
 export const fetchTreinadores = () => apiService('/treinadores');
 
 export const fetchRegioes = () => apiService('/regioes');
+
+export const fetchLogin = (body) => apiPost('/login', body);

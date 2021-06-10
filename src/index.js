@@ -8,6 +8,7 @@ import AppHeader from './components/AppHeader/AppHeader';
 import Botao from './components/Botao/Botao';
 import CadastroPokemon from './screens/CadastroPokemon/CadastroPokemon';
 import CadastroUsuario from './screens/CadastroUsuario/CadastroUsuario';
+import LoginUsuario from './screens/LoginUsuario/LoginUsuario';
 import PaginaPokedex from './screens/PaginaPokedex/PaginaPokedex';
 import { Linha, NotificacaoErro, NotificacaoSucesso } from './styles/base';
 
@@ -66,6 +67,9 @@ const App = () => {
         </Route>
         <Route exact path="/pokedex">
           <PaginaPokedex />
+        </Route>
+        <Route exact path="/login">
+          <LoginUsuario />
         </Route>
       </Switch>
     </AlertProvider>

@@ -27,7 +27,7 @@ const defaultValues = {
   perfis: '',
 };
 
-const CadastroPokemon = () => {
+const CadastroUsuario = () => {
   const [values, setValues] = useState(defaultValues);
 
   const alert = useAlert();
@@ -125,6 +125,7 @@ const CadastroPokemon = () => {
         </b>
         <CampoForm
           id="campo_senhaUsuario"
+          type="password"
           value={values.senha}
           onChange={({ target }) => {
             setValues({
@@ -169,4 +170,4 @@ const CadastroPokemon = () => {
   );
 };
 
-export default CadastroPokemon;
+export default CadastroUsuario;

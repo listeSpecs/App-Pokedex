@@ -7,7 +7,7 @@ export const Menu = styled.nav`
 
   ul {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
 
     li {
       list-style: none;

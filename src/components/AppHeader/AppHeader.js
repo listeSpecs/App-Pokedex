@@ -27,6 +27,11 @@ const AppHeader = () => {
                   Cadastro de Usuários
                 </Link>
               </li>
+              <li>
+                <Link to="/login" style={{ color: '#fff' }}>
+                  Entrar
+                </Link>
+              </li>
             </ul>
           </Menu>
         </header>
