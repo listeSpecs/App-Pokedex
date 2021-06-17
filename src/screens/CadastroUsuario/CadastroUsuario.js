@@ -36,11 +36,6 @@ const CadastroUsuario = () => {
       return false;
     }
 
-    if (!values.perfil) {
-      alert.error('Verifique todos os campos obrigatórios.', { timeout: 5000 });
-      return false;
-    }
-
     return true;
   };
 
